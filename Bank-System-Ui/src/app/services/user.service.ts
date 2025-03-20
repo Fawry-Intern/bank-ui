@@ -12,18 +12,21 @@ export class UserService{
 
 
     private userUrl = 'http://localhost:8081/api/user';
-    private headers:HttpHeaders;
+    public headers:HttpHeaders;
     constructor(private httpClient:HttpClient)
     {
- this.headers = new HttpHeaders({
-                Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
-          'Content-Type': 'application/json'
-              });
+        
+        this.headers = new HttpHeaders({
+            Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
+      'Content-Type': 'application/json'
+          });   
+             
     }
 
     getUserProfile(userId:Number):Observable<UserDetails>
     {
-           return this.httpClient.get<UserDetails>(`${this.userUrl}/${userId}`,{headers:this.headers}).pipe(
+        
+           return this.httpClient.get<UserDetails>(`${this.userUrl}/${userId}`).pipe(
                        catchError((error) => {
                          console.error('getting user details failed', error);
                          throw error; 
@@ -34,6 +37,9 @@ export class UserService{
 
     getAllUsers():Observable<UserDetails[]>
     {
+
+        console.log('Request Headers:', this.headers); // Log headers before making the request
+
         return this.httpClient.get<UserDetails[]>(`${this.userUrl}`,{headers:this.headers}).pipe(
             catchError((error) => {
               console.error('getting all users details failed', error);

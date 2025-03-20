@@ -1,15 +1,16 @@
 import { Component } from '@angular/core';
-import { CommonModule } from '@angular/common';
 import { AuthService } from '../../services/auth.service';
 import { Router } from '@angular/router';
 import { AuthRequest } from '../../dtos/user/auth-request.model';
+import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { AuthDetails } from '../../models/user/auth-details.model';
 @Component({
-  selector: 'app-log-in',
-  standalone: true,
-  imports: [CommonModule,FormsModule],
-  templateUrl: './log-in.component.html',
-  styleUrl: './log-in.component.css'
+    selector: 'app-log-in',
+    templateUrl: './log-in.component.html',
+    standalone:true,
+    imports:[FormsModule,CommonModule],
+    styleUrl: './log-in.component.css'
 })
 export class LogInComponent {
 
@@ -23,10 +24,10 @@ export class LogInComponent {
 
 onSubmit() {
 this.authService.authenticate(this.authRequest).subscribe({
-  next:(response)=>{
+  next:(response:AuthDetails)=>{
                 
                 localStorage.setItem('userId',response.userId.toString());      
-                localStorage.setItem('accessToken',response.accessToken.toString());
+                localStorage.setItem('accessToken',response.accessToken);
                console.log(response.role);
                 if(response.role.toLocaleString()==="ADMIN")
                 {

@@ -7,11 +7,11 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 
 @Component({
-  selector: 'app-sign-up',
-  templateUrl: './sign-up.component.html',
-  standalone: true,
-  imports:[CommonModule,FormsModule],
-  styleUrls: ['./sign-up.component.css']
+    selector: 'app-sign-up',
+    templateUrl: './sign-up.component.html',
+    standalone:true,
+    imports: [CommonModule,FormsModule],
+    styleUrls: ['./sign-up.component.css']
 })
 export class SignUpComponent {
   

@@ -5,5 +5,6 @@ firstName:String,
 lastName:String,
 email:String,
 phoneNumber:String,
-address:String
+address:String,
+isActive:Boolean
 }
