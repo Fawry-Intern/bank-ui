@@ -19,7 +19,7 @@ export class LogInComponent {
     password:''
   };
   userId:number=0;
-
+  fieldErrors: { [key: string]: string } = {};  
   constructor(private authService:AuthService, private route:Router){}
 
 onSubmit() {
@@ -39,7 +39,15 @@ this.authService.authenticate(this.authRequest).subscribe({
                 }
                
               
-  }});
+  }, error: (err) =>{
+
+    console.error('Error at login process:', err)
+   
+      this.fieldErrors['password']="Invalid email or password";
+    
+  } 
+    
+});
 }
 
 goToSignUp()

@@ -1,72 +1,60 @@
+table{
+    font-weight: bold;
 
-/* Make the table responsive on smaller screens */
-.table-responsive {
-    max-height: 400px;
-    overflow-y: auto;
+}
+/* Set a fixed width for the table and prevent it from resizing */
+.table {
+    width: 100%; /* Ensure the table takes full width of the parent container */
+    table-layout: fixed; /* Makes sure the table size remains constant */
+    border-collapse: collapse; /* Optional: makes borders collapse for a cleaner look */
   }
   
-  /* Card styling */
-  .card {
-    background-color: #343a40; /* Dark background for the card */
-    border-radius: 10px;
-  }
-  
-  .card-body {
-    padding: 20px;
-  }
-  
-  /* Search input field styling */
-  input.form-control {
-    border-radius: 8px;
-    padding: 10px;
-    background-color: #495057;
-    color: #fff;
-  }
-  
-  input.form-control::placeholder {
-    color: #ced4da;
-  }
-  
-  /* Table styling */
+  /* Define fixed width for each column to ensure constant size */
   .table th, .table td {
-    text-align: center;
-    padding: 12px;
-    font-size: 14px;
+    width: 16%; /* Adjust width percentage according to your needs */
+    overflow: hidden;
+    text-overflow: ellipsis; /* Truncate content with ellipsis if it's too long */
+    white-space: nowrap; /* Prevent content from wrapping to the next line */
   }
   
-  thead {
-    background-color: #495057;
+  /* Optionally, you can add specific widths for certain columns */
+  .table th:nth-child(1),
+  .table td:nth-child(1) {
+    width: 18%; /* For first column */
   }
   
-  tbody tr:hover {
-    background-color: #141b23; /* Blue background when hovered */
-    color: #fff; /* White text on hover */
+  .table th:nth-child(2),
+  .table td:nth-child(2) {
+    width: 18%; /* For second column */
   }
   
-  /* Table hover effects */
+  .table th:nth-child(3),
+  .table td:nth-child(3) {
+    width: 18%; /* For third column */
+  }
+  
+  .table th:nth-child(4),
+  .table td:nth-child(4) {
+    width: 18%; /* For fourth column */
+  }
+  
+  .table th:nth-child(5),
+  .table td:nth-child(5) {
+    width: 18%; /* For fifth column */
+  }
+  
+  .table th:nth-child(6),
+  .table td:nth-child(6) {
+    width: 12%; /* For the Status column */
+  }
+  
+  /* Optional: Styling for table rows on hover */
   .table-hover tbody tr:hover {
-    background-color: #007bff;
+    background-color: #007bff; /* Highlight on hover */
     color: white;
-    cursor: pointer;
   }
   
-  /* Pagination styling */
-  .pagination {
-    margin-top: 20px;
-    justify-content: center;
+  .table td, .table th {
+    word-wrap: break-word;
+    white-space: normal;
   }
-  
-  .pagination .page-item {
-    margin: 0 5px;
-  }
-  
-  .pagination .page-link {
-    background-color: #007bff;
-    color: #fff;
-  }
-  
-  .pagination .page-link:hover {
-    background-color: #0056b3;
-  }
-  
-  

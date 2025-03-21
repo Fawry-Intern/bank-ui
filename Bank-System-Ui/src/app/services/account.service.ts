@@ -23,7 +23,7 @@ export class AccountService{
 
         getAllAccounts():Observable<AccountDetails[]>{
 
-            return this.httpClient.get<AccountDetails[]>(`${this.accountUrl}`).pipe(
+            return this.httpClient.get<AccountDetails[]>(`${this.accountUrl}`,{headers:this.headers}).pipe(
                         catchError((error) => {
                           console.error('getting all accounts failed', error);
                           throw error; 
@@ -33,7 +33,7 @@ export class AccountService{
 
         activateAccount(accountId:Number):Observable<AccountDetails>
         {
-            return this.httpClient.put<AccountDetails>(`${this.accountUrl}/activate/${accountId}`,[]).pipe(
+            return this.httpClient.put<AccountDetails>(`${this.accountUrl}/activate/${accountId}`,[],{headers:this.headers}).pipe(
                 catchError((error) => {
                   console.error('activating account failed', error);
                   throw error; 
@@ -43,7 +43,7 @@ export class AccountService{
 
         deactivateAccount(accountId:Number):Observable<AccountDetails>
         {
-            return this.httpClient.put<AccountDetails>(`${this.accountUrl}/deactivate/${accountId}`,[]).pipe(
+            return this.httpClient.put<AccountDetails>(`${this.accountUrl}/deactivate/${accountId}`,[],{headers:this.headers}).pipe(
                 catchError((error) => {
                   console.error('deactivating account failed', error);
                   throw error; 

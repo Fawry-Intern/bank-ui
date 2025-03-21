@@ -26,7 +26,7 @@ export class UserService{
     getUserProfile(userId:Number):Observable<UserDetails>
     {
         
-           return this.httpClient.get<UserDetails>(`${this.userUrl}/${userId}`).pipe(
+           return this.httpClient.get<UserDetails>(`${this.userUrl}/${userId}`,{headers:this.headers}).pipe(
                        catchError((error) => {
                          console.error('getting user details failed', error);
                          throw error; 
@@ -38,8 +38,6 @@ export class UserService{
     getAllUsers():Observable<UserDetails[]>
     {
 
-        console.log('Request Headers:', this.headers); // Log headers before making the request
-
         return this.httpClient.get<UserDetails[]>(`${this.userUrl}`,{headers:this.headers}).pipe(
             catchError((error) => {
               console.error('getting all users details failed', error);
@@ -47,8 +45,27 @@ export class UserService{
             })
           );
     }
+    getAllUsersWithActiveAccounts():Observable<UserDetails[]>
+    {
 
+        return this.httpClient.get<UserDetails[]>(`${this.userUrl}/active-account`,{headers:this.headers}).pipe(
+            catchError((error) => {
+              console.error('getting all users active accounts failed', error);
+              throw error; 
+            })
+          );
+    }
+    getAllUsersWithBlockedAccounts():Observable<UserDetails[]>
+    {
+      return this.httpClient.get<UserDetails[]>(`${this.userUrl}/un-active-account`,{headers:this.headers}).pipe(
+        catchError((error) => {
+          console.error('getting all users with un active accounts failed', error);
+          throw error; 
+        })
+      );
+    }
 
+  
     activateUser(userId:Number) :Observable<UserDetails>
     {
         return this.httpClient.put<UserDetails>(`${this.userUrl}/activate/${userId}`,[],{headers:this.headers}).pipe(
@@ -71,7 +88,7 @@ export class UserService{
 
     resetUserAccountPassword(passwordResetRequest:PasswordResetRequest):Observable<Number>
     {
-        return this.httpClient.put<Number>(`${this.userUrl}/reset-password`,passwordResetRequest,{headers:this.headers}).pipe(
+        return this.httpClient.put<Number>(`${this.userUrl}/reset-password`,passwordResetRequest).pipe(
             catchError((error) => {
               console.error('reset password failed', error);
               throw error; 
@@ -82,7 +99,7 @@ export class UserService{
 
      changeUserAccountPassword(passwordChangeRequest:PasswordChangeRequest):Observable<Number>
     {
-        return this.httpClient.put<Number>(`${this.userUrl}/change-password`,passwordChangeRequest).pipe(
+        return this.httpClient.put<Number>(`${this.userUrl}/change-password`,passwordChangeRequest,{headers:this.headers}).pipe(
             catchError((error) => {
               console.error('change password failed', error);
               throw error; 
