@@ -1,0 +1,67 @@
+
+  <!-- User Table Section (Takes the whole screen width on the right) -->
+  <div class="container-fluid p-4 flex-grow-1 d-flex justify-content-center" style="margin-left: 150px;">
+    <!-- User Table -->
+    <div class="card shadow-lg w-100 w-md-50"> <!-- Adjust width to control the table size -->
+      <div class="card-body">
+        <!-- Title: All Users -->
+        <h3 class="text-white mb-4 text-center">All Users</h3>
+
+        <!-- Search Filter -->
+        <div class="mb-3">
+          <input 
+            type="text" 
+            class="form-control" 
+            placeholder="Search users..." 
+            [(ngModel)]="searchQuery" 
+            (input)="filterUsers()">
+        </div>
+
+        <!-- Table -->
+        <table class="table table-hover table-bordered text-white">
+          <thead class="thead-dark">
+            <tr>
+              <th>First Name</th>
+              <th>Last Name</th>
+              <th>Email</th>
+              <th>Address</th>
+              <th>Phone</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let user of filteredUsers">
+              <td>{{ user.firstName }}</td>
+              <td>{{ user.lastName }}</td>
+              <td>{{ user.email }}</td>
+              <td>{{ user.address }}</td>
+              <td>{{ user.phoneNumber }}</td>
+              <td>
+                <!-- Toggle Status Button -->
+                <button 
+                  class="btn" 
+                  [ngClass]="{
+                    'btn-success': user.isActive === true, 
+                    'btn-danger': user.isActive === false
+                  }" 
+                  (click)="toggleStatus(user)">
+                  {{ user.isActive===true ? 'Deactivate' : 'Activate' }}
+                </button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+
+        <nav>
+          <ul class="pagination justify-content-center">
+            <li class="page-item">
+              <a class="page-link"  (click)="previousPage()" style="background-color: #192129;">Previous</a>
+            </li>
+            <li class="page-item">
+              <a class="page-link"  (click)="nextPage()" style="background-color: #192129;">Next</a>
+            </li>
+          </ul>
+        </nav>
+      </div>
+    </div>
+  </div>

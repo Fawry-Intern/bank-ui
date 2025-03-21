@@ -1,0 +1,56 @@
+<div class="sidebar d-flex flex-column p-3 text-white bg-dark min-vh-100">
+    <!-- Bank Logo and Sidebar Title -->
+    <a href="/" class="d-flex justify-content-start align-items-center mb-3 mb-md-0 me-md-auto text-white text-decoration-none">
+        <!-- Bank Icon (FontAwesome) -->
+        <i class="fas fa-university fa-fw me-2" style="font-size: 30px;"></i>
+        <span class="ms-2"> Dashboard</span> <!-- Bank Name or Dashboard Title -->
+    </a>
+    <hr>
+    
+    <!-- Navigation Links -->
+    <ul class="nav nav-pills flex-column mb-auto">
+        
+        
+        <!-- Users Section -->
+        <li class="nav-item">
+            <a href="/users" class="nav-link text-white">
+                <i class="fas fa-users fa-fw me-2"></i>
+                <span>Users</span>
+            </a>
+        </li>
+        
+        <!-- Active Users Section -->
+        <li class="nav-item">
+            <a href="/active-users" class="nav-link text-white">
+                <i class="fas fa-check-circle fa-fw me-2"></i>
+                <span>Active Users</span>
+            </a>
+        </li>
+        
+        <!-- Blocked Users Section -->
+        <li class="nav-item">
+            <a href="/blocked-users" class="nav-link text-white">
+                <i class="fas fa-ban fa-fw me-2"></i>
+                <span>Blocked Users</span>
+            </a>
+        </li>
+    </ul>
+    
+    <hr>
+    
+    <!-- Additional Admin Links (Optional) -->
+    <ul class="nav nav-pills flex-column">
+        <li class="nav-item">
+            <a href="/settings" class="nav-link text-white">
+                <i class="fas fa-cogs fa-fw me-2"></i>
+                <span>Settings</span>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a href="/logout" class="nav-link text-white">
+                <i class="fas fa-sign-out-alt fa-fw me-2"></i>
+                <span>Logout</span>
+            </a>
+        </li>
+    </ul>
+</div>
