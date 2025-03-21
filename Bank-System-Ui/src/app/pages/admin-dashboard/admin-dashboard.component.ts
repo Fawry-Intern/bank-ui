@@ -1,13 +1,13 @@
 
-import { Component } from "@angular/core";
-import { LogInComponent } from "../log-in/log-in.component";
-import { SignUpComponent } from "../sign-up/sign-up.component";
-import { SidebarComponent } from "../sidebar/sidebar.component";
-import { UserTableComponent } from "../user-table/user-table.component";
+import { Component, Input } from "@angular/core";
+
+import { UserTableComponent } from "../../components/user-table/user-table.component";
 import { CommonModule } from "@angular/common";
 import { FormsModule } from "@angular/forms";
 import { UserDetails } from "../../models/user/user-details.model";
 import { UserService } from "../../services/user.service";
+import { SidebarComponent } from "../../components/admin-sidebar/sidebar.component";
+import { AccountService } from "../../services/account.service";
 
 @Component({
     selector: 'app-admin-dashboard',
@@ -20,7 +20,7 @@ export class AdminDashboardComponent {
 
     users:UserDetails[]=[];
 
-    constructor(private userService:UserService)
+    constructor(private userService:UserService,private accountService:AccountService)
     {
 
     }
@@ -33,7 +33,10 @@ export class AdminDashboardComponent {
         this.userService.getAllUsers().subscribe({
             next: (response) => {
               this.users=response;
+              console.log(response);
             }})
         }
+
+
 
 }

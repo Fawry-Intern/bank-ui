@@ -1,32 +1,31 @@
+<div class="container-fluid p-4 flex-grow-1 d-flex justify-content-center">
+  <div class="card shadow-lg w-70 w-md-50">
+    <div class="card-body">
+      <h3 class="text-black mb-4 text-center">Users</h3>
 
-  <!-- User Table Section (Takes the whole screen width on the right) -->
-  <div class="container-fluid p-4 flex-grow-1 d-flex justify-content-center" style="margin-left: 150px;">
-    <!-- User Table -->
-    <div class="card shadow-lg w-100 w-md-50"> <!-- Adjust width to control the table size -->
-      <div class="card-body">
-        <!-- Title: All Users -->
-        <h3 class="text-white mb-4 text-center">All Users</h3>
+      <!-- Search Filter -->
+      <div class="mb-3">
+        <input
+          type="text"
+          class="form-control"
+          placeholder="Search users..."
+          [(ngModel)]="searchQuery"
+          (input)="filterUsers()"
+        />
+      </div>
 
-        <!-- Search Filter -->
-        <div class="mb-3">
-          <input 
-            type="text" 
-            class="form-control" 
-            placeholder="Search users..." 
-            [(ngModel)]="searchQuery" 
-            (input)="filterUsers()">
-        </div>
-
-        <!-- Table -->
-        <table class="table table-hover table-bordered text-white">
+      <!-- Table -->
+      <div class="table-responsive"> <!-- Makes the table scrollable horizontally if necessary -->
+        <table class="table table-hover table-bordered text-white" style="text-align: center;">
           <thead class="thead-dark">
             <tr>
-              <th>First Name</th>
-              <th>Last Name</th>
-              <th>Email</th>
-              <th>Address</th>
-              <th>Phone</th>
-              <th>Status</th>
+              <th style="min-width: 150px;">First Name</th>
+              <th style="min-width: 150px;">Last Name</th>
+              <th style="min-width: 200px;">Email</th>
+              <th style="min-width: 250px;">Address</th>
+              <th style="min-width: 150px;">Phone</th>
+              <th style="min-width: 180px;">User Account Status</th>
+              <th style="min-width: 180px;">Bank Account Status</th>
             </tr>
           </thead>
           <tbody>
@@ -37,31 +36,35 @@
               <td>{{ user.address }}</td>
               <td>{{ user.phoneNumber }}</td>
               <td>
-                <!-- Toggle Status Button -->
-                <button 
-                  class="btn" 
+                <div
+                  class="btn"
                   [ngClass]="{
-                    'btn-success': user.isActive === true, 
+                    'btn-success': user.isActive === true,
                     'btn-danger': user.isActive === false
-                  }" 
-                  (click)="toggleStatus(user)">
-                  {{ user.isActive===true ? 'Deactivate' : 'Activate' }}
-                </button>
+                  }"
+                  (click)="toggleUserStatus(user)"
+                  *ngIf="getUserId() !== user.id.toString()"
+                >
+                  {{ user?.isActive === true ? 'Active' : 'Not Active' }}
+                </div>
+              </td>
+              <td>
+                <div
+                  class="btn"
+                  [ngClass]="{
+                    'btn-success': user.bankAccountStatus === true,
+                    'btn-danger': user.bankAccountStatus === false
+                  }"
+                  (click)="toggleBankAccountStatus(user)"
+                  *ngIf="getUserId() !== user.id.toString()"
+                >
+                  {{ user?.bankAccountStatus === true ? 'Active' : (user?.bankAccountStatus === false ? 'Not Active' : 'No Bank Account') }}
+                </div>
               </td>
             </tr>
           </tbody>
         </table>
-
-        <nav>
-          <ul class="pagination justify-content-center">
-            <li class="page-item">
-              <a class="page-link"  (click)="previousPage()" style="background-color: #192129;">Previous</a>
-            </li>
-            <li class="page-item">
-              <a class="page-link"  (click)="nextPage()" style="background-color: #192129;">Next</a>
-            </li>
-          </ul>
-        </nav>
       </div>
     </div>
   </div>
+</div>

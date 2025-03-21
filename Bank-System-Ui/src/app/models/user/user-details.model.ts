@@ -6,5 +6,7 @@ lastName:String,
 email:String,
 phoneNumber:String,
 address:String,
-isActive:Boolean
+isActive:Boolean,
+bankAccountId:Number,
+bankAccountStatus:Boolean
 }

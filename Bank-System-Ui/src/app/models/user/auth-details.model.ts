@@ -2,6 +2,6 @@
 
 export interface AuthDetails{
     accessToken:string,
-    userId:number,
+    userId:Number,
     role:string
 }

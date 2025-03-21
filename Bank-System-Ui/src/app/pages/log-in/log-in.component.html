@@ -37,6 +37,9 @@
                             <input type="password" class="form-control" name="password" id="password" value="" placeholder="Password"  [(ngModel)]="authRequest.password"required>
                             <label for="password" class="form-label">Password</label>
                           </div>
+                          <div *ngIf="fieldErrors?.['password']" class="text-danger">
+                            {{ fieldErrors['password'] }}
+                          </div>
                         </div>
                        
                         <div class="col-12">

@@ -1,7 +1,10 @@
 import { CommonModule } from '@angular/common';
-import { Component, Input } from '@angular/core';
+import { Component, EventEmitter, Input, Output, SimpleChange, SimpleChanges } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { UserDetails } from '../../models/user/user-details.model';
+import { filter } from 'rxjs';
+import { UserService } from '../../services/user.service';
+import { AccountService } from '../../services/account.service';
 @Component({
   selector: 'app-user-table',
   standalone:true,
@@ -13,11 +16,20 @@ export class UserTableComponent {
 
 
   @Input() users:UserDetails[]=[];
-
-
-  filteredUsers = this.users;
+  filteredUsers:UserDetails[]=[];
   searchQuery = '';
+ 
+  constructor(private userService:UserService,private accountService:AccountService)
+  {
 
+  }
+ ngOnChanges(changes: SimpleChanges): void {
+  
+  if (changes['users']) {
+ 
+    this.filterUsers();
+  }
+}
   // Filter users based on search query
   filterUsers() {
     if (this.searchQuery === '') {
@@ -31,30 +43,42 @@ export class UserTableComponent {
     }
   }
 
-  // Toggle user status between Active and Inactive
-  toggleStatus(user: any) {
-    user.status = user.status === 'Active' ? 'Inactive' : 'Active';
-  }
+  toggleUserStatus(user: any) {
 
-  // Pagination methods (if needed)
-  currentPage = 1;
-  pageSize = 5;
-
-  get pagedUsers() {
-    const startIndex = (this.currentPage - 1) * this.pageSize;
-    const endIndex = startIndex + this.pageSize;
-    return this.filteredUsers.slice(startIndex, endIndex);
-  }
-
-  previousPage() {
-    if (this.currentPage > 1) {
-      this.currentPage--;
+    if(user.isActive===true)
+    {
+      this.userService.deactivateUser(user.id).subscribe((response)=>{
+       console.log(response);
+      });
     }
+    else  this.userService.activateUser(user.id).subscribe((response)=>{
+      console.log(response);
+     });
+
+    
+    user.isActive=!user.isActive;
+ 
+
+  }
+  toggleBankAccountStatus(user:any)
+  {
+
+    if(user.bankAccountStatus===true)
+      {
+       this.accountService.deactivateAccount(user.bankAccountId).subscribe((response)=>{
+         console.log(response);
+       })
+      }
+      else this.accountService.activateAccount(user.bankAccountId).subscribe((response)=>{
+       console.log(response);
+      });
+ 
+    user.bankAccountStatus=!user.bankAccountStatus;
   }
 
-  nextPage() {
-    if (this.currentPage < Math.ceil(this.filteredUsers.length / this.pageSize)) {
-      this.currentPage++;
-    }
+
+  getUserId(){
+    return localStorage.getItem('userId');
   }
+  
 }
