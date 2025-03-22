@@ -1,54 +1,44 @@
-<div class="sidebar d-flex flex-column p-3 text-white bg-dark min-vh-100">
+<div class="sidebar">
+    <div class="sidebar-header">
+        <div class="logo-container">
+            <i class="fas fa-university"></i>
+            <span>Admin Dashboard</span>
+        </div>
+    </div>
 
-    <a href="/" class="d-flex justify-content-start align-items-center mb-3 mb-md-0 me-md-auto text-white text-decoration-none">
-        
-        <i class="fas fa-university fa-fw me-2" style="font-size: 30px;"></i>
-        <span class="ms-2"> Admin Dashboard</span> 
-    </a>
-    <hr>
-    
+    <div class="sidebar-content">
+        <ul class="nav-menu">
+            <li class="nav-item">
+                <a (click)="goToProfile()" class="nav-link">
+                    <i class="fas fa-user-shield"></i>
+                    <span>Profile</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a (click)="goToAdminDashboard()" class="nav-link">
+                    <i class="fas fa-users"></i>
+                    <span>Users</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a (click)="goToActiveAccounts()" class="nav-link">
+                    <i class="fas fa-check-circle"></i>
+                    <span>Active Accounts</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a (click)="goToBlockedAccounts()" class="nav-link">
+                    <i class="fas fa-ban"></i>
+                    <span>Blocked Accounts</span>
+                </a>
+            </li>
+        </ul>
+    </div>
 
-    <ul class="nav nav-pills flex-column mb-auto">
-        
-        <li class="nav-item" >
-            <a (click)="goToProfile()"  class="nav-link text-white" style="cursor: pointer;">
-                <i class="fas fa-user fa-fw me-2"></i>
-                <span>Profile</span>
-            </a>
-        </li>
-        <li class="nav-item" >
-            <a (click)="goToAdminDashboard()"  class="nav-link text-white">
-                <i class="fas fa-users fa-fw me-2"></i>
-                <span>Users</span>
-            </a>
-        </li>
-        
-      
-        <li class="nav-item">
-            <a (click)="goToActiveAccounts()" class="nav-link text-white">
-                <i class="fas fa-check-circle fa-fw me-2"></i>
-                <span>Active Bank Accounts</span>
-            </a>
-        </li>
-        
-        <li class="nav-item">
-            <a (click)="goToBlockedAccounts()" class="nav-link text-white">
-                <i class="fas fa-ban fa-fw me-2"></i>
-                <span>Blocked Bank Accounts</span>
-            </a>
-        </li>
-    </ul>
-    
-    <hr>
-    
-
-    <ul class="nav nav-pills flex-column">
-       
-        <li class="nav-item">
-            <a href="/login" class="nav-link text-white" (click)="logout()">
-                <i class="fas fa-sign-out-alt fa-fw me-2"></i>
-                <span>Logout</span>
-            </a>
-        </li>
-    </ul>
+    <div class="sidebar-footer">
+        <a href="/login" class="logout-link" (click)="logout()">
+            <i class="fas fa-sign-out-alt"></i>
+            <span>Logout</span>
+        </a>
+    </div>
 </div>

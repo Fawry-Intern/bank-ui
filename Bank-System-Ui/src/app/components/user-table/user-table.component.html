@@ -1,35 +1,40 @@
 <div class="container-fluid p-4 flex-grow-1 d-flex justify-content-center">
   <div class="card shadow-lg w-70 w-md-50">
     <div class="card-body">
-      <h3 class="text-black mb-4 text-center">Users</h3>
+      <h3 class="text-primary mb-4 text-center fw-bold">Active Bank Accounts</h3>
 
       <!-- Search Filter -->
-      <div class="mb-3">
-        <input
-          type="text"
-          class="form-control"
-          placeholder="Search users..."
-          [(ngModel)]="searchQuery"
-          (input)="filterUsers()"
-        />
+      <div class="mb-4">
+        <div class="input-group">
+          <span class="input-group-text bg-primary text-white">
+            <i class="fas fa-search"></i>
+          </span>
+          <input
+            type="text"
+            class="form-control"
+            placeholder="Search users..."
+            [(ngModel)]="searchQuery"
+            (input)="filterUsers()"
+          />
+        </div>
       </div>
 
       <!-- Table -->
-      <div class="table-responsive"> <!-- Makes the table scrollable horizontally if necessary -->
-        <table class="table table-hover table-bordered text-white" style="text-align: center;">
-          <thead class="thead-dark">
-            <tr>
-              <th style="min-width: 150px;">First Name</th>
-              <th style="min-width: 150px;">Last Name</th>
-              <th style="min-width: 200px;">Email</th>
-              <th style="min-width: 250px;">Address</th>
-              <th style="min-width: 150px;">Phone</th>
-              <th style="min-width: 180px;">User Account Status</th>
-              <th style="min-width: 180px;">Bank Account Status</th>
+      <div class="table-responsive">
+        <table class="table table-hover align-middle">
+          <thead>
+            <tr class="bg-light">
+              <th class="text-primary">First Name</th>
+              <th class="text-primary">Last Name</th>
+              <th class="text-primary">Email</th>
+              <th class="text-primary">Address</th>
+              <th class="text-primary">Phone</th>
+              <th class="text-primary">User Status</th>
+              <th class="text-primary">Bank Status</th>
             </tr>
           </thead>
           <tbody>
-            <tr *ngFor="let user of filteredUsers">
+            <tr *ngFor="let user of filteredUsers" class="border-bottom">
               <td>{{ user.firstName }}</td>
               <td>{{ user.lastName }}</td>
               <td>{{ user.email }}</td>
@@ -37,28 +42,30 @@
               <td>{{ user.phoneNumber }}</td>
               <td>
                 <div
-                  class="btn"
+                  class="status-badge"
                   [ngClass]="{
-                    'btn-success': user.isActive === true,
-                    'btn-danger': user.isActive === false
+                    'status-active': user.isActive === true,
+                    'status-inactive': user.isActive === false
                   }"
                   (click)="toggleUserStatus(user)"
                   *ngIf="getUserId() !== user.id.toString()"
                 >
-                  {{ user?.isActive === true ? 'Active' : 'Not Active' }}
+                  <i class="fas" [ngClass]="user.isActive ? 'fa-check-circle' : 'fa-times-circle'"></i>
+                  {{ user?.isActive === true ? 'Active' : 'Inactive' }}
                 </div>
               </td>
               <td>
                 <div
-                  class="btn"
+                  class="status-badge"
                   [ngClass]="{
-                    'btn-success': user.bankAccountStatus === true,
-                    'btn-danger': user.bankAccountStatus === false
+                    'status-active': user.bankAccountStatus === true,
+                    'status-inactive': user.bankAccountStatus === false
                   }"
                   (click)="toggleBankAccountStatus(user)"
                   *ngIf="getUserId() !== user.id.toString()"
                 >
-                  {{ user?.bankAccountStatus === true ? 'Active' : (user?.bankAccountStatus === false ? 'Not Active' : 'No Bank Account') }}
+                  <i class="fas" [ngClass]="user.bankAccountStatus ? 'fa-check-circle' : 'fa-times-circle'"></i>
+                  {{ user?.bankAccountStatus === true ? 'Active' : (user?.bankAccountStatus === false ? 'Inactive' : 'No Account') }}
                 </div>
               </td>
             </tr>

@@ -27,51 +27,107 @@
                 </div>
 
                 <div class="dashboard-grid">
-                    <!-- Users Management Card -->
-                    <div class="dashboard-card">
+                    <!-- Users Overview Card -->
+                    <div class="dashboard-card users-overview">
                         <div class="card-header">
                             <i class="fas fa-users"></i>
-                            <h2>Users Management</h2>
+                            <h2>Users Overview</h2>
                         </div>
                         <div class="card-content">
-                            <p>Total Users: {{ users.length }}</p>
-                            <div class="action-buttons">
-                                <button class="btn btn-primary">View All Users</button>
-                                <button class="btn btn-secondary">Add New User</button>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- System Statistics Card -->
-                    <div class="dashboard-card">
-                        <div class="card-header">
-                            <i class="fas fa-chart-bar"></i>
-                            <h2>System Statistics</h2>
-                        </div>
-                        <div class="card-content">
-                            <div class="stat-item">
-                                <span class="stat-label">Active Accounts</span>
-                                <span class="stat-value">{{ getActiveUsersCount() }}</span>
-                            </div>
-                            <div class="stat-item">
-                                <span class="stat-label">Pending Approvals</span>
-                                <span class="stat-value">0</span>
+                            <div class="stats-grid">
+                                <div class="stat-item">
+                                    <div class="stat-icon active">
+                                        <i class="fas fa-user-check"></i>
+                                    </div>
+                                    <div class="stat-info">
+                                        <span class="stat-value">{{ getActiveUsersCount() }}</span>
+                                        <span class="stat-label">Active Users</span>
+                                    </div>
+                                </div>
+                                <div class="stat-item">
+                                    <div class="stat-icon inactive">
+                                        <i class="fas fa-user-slash"></i>
+                                    </div>
+                                    <div class="stat-info">
+                                        <span class="stat-value">{{ users.length - getActiveUsersCount() }}</span>
+                                        <span class="stat-label">Inactive Users</span>
+                                    </div>
+                                </div>
+                                <div class="stat-item">
+                                    <div class="stat-icon total">
+                                        <i class="fas fa-users"></i>
+                                    </div>
+                                    <div class="stat-info">
+                                        <span class="stat-value">{{ users.length }}</span>
+                                        <span class="stat-label">Total Users</span>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
 
                     <!-- Recent Activity Card -->
-                    <div class="dashboard-card">
+                    <div class="dashboard-card recent-activity">
                         <div class="card-header">
                             <i class="fas fa-history"></i>
                             <h2>Recent Activity</h2>
                         </div>
                         <div class="card-content">
                             <div class="activity-list">
-                                <p>No recent activity to display</p>
+                                <div *ngIf="recentActivities.length === 0" class="no-activity">
+                                    <i class="fas fa-clock"></i>
+                                    <p>No recent activity to display</p>
+                                </div>
+                                <div *ngFor="let activity of recentActivities" class="activity-item">
+                                    <div class="activity-icon" [ngClass]="activity.type">
+                                        <i class="fas" [ngClass]="getActivityIcon(activity.type)"></i>
+                                    </div>
+                                    <div class="activity-details">
+                                        <div class="activity-title">{{ activity.title }}</div>
+                                        <div class="activity-time">{{ activity.time | date:'medium' }}</div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
+
+                    <!-- Quick Actions Card -->
+                    <div class="dashboard-card quick-actions">
+                        <div class="card-header">
+                            <i class="fas fa-bolt"></i>
+                            <h2>Quick Actions</h2>
+                        </div>
+                        <div class="card-content">
+                            <div class="actions-grid">
+                                <button class="action-btn" (click)="viewAllUsers()">
+                                    <i class="fas fa-list"></i>
+                                    <span>View All Users</span>
+                                </button>
+                                <button class="action-btn" (click)="viewActiveAccounts()">
+                                    <i class="fas fa-check-circle"></i>
+                                    <span>Active Accounts</span>
+                                </button>
+                                <button class="action-btn" (click)="viewBlockedAccounts()">
+                                    <i class="fas fa-ban"></i>
+                                    <span>Blocked Accounts</span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Users Table Section -->
+                <div class="users-table-section">
+                    <div class="section-header">
+                        <h2>Users Management</h2>
+                        <div class="table-actions">
+                            <div class="search-box">
+                                <i class="fas fa-search"></i>
+                                <input type="text" placeholder="Search users..." [(ngModel)]="searchQuery" (input)="filterUsers()">
+                            </div>
+                        </div>
+                    </div>
+                    <app-user-table [users]="filteredUsers"></app-user-table>
                 </div>
             </div>
         </div>

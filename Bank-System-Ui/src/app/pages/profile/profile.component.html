@@ -1,47 +1,55 @@
 <div class="d-flex">
     <app-sidebar></app-sidebar>
     <div class="container mt-5">
-        <div class="card shadow-lg">
-          <div class="card-header  text-white text-center" style="background-color: rgb(68 78 93);">
-            <h4> Welcome to your Profile</h4>
-          </div>
-          <div class="card-body">
+        <div class="profile-card">
+            <div class="profile-header">
+                <div class="profile-icon">
+                    <i class="fas fa-user-shield"></i>
+                    <div class="admin-badge">
+                        <i class="fas fa-crown"></i>
+                        <span>Administrator</span>
+                    </div>
+                </div>
+                <h2>{{user?.firstName}} {{user?.lastName}}</h2>
+            </div>
             
-            <div class="row mb-4 ">
-              <div class="col-md-3 ">
-                <img src="assets/profile.jpg" class="rounded-circle" alt="User Photo" width="100" height="100">
-                <span style="margin-left: 20px;"> <strong>  {{user?.firstName}} {{user?.lastName}}</strong> </span>
-              </div>
-            </div>
-     
-            <div class="row">
-            
-        
-            <div class="row">
-              <div class="col-md-6">
-                <p><strong>Email:</strong> {{user?.email}}</p>
-              </div>
-              <div class="col-md-6">
-                <p><strong>Phone:</strong>{{user?.phoneNumber}}</p>
-              </div>
-            </div>
-            <div class="row">
-              <div class="col-md-12">
-                <p><strong>Address:</strong> {{user?.address}}</p>
-              </div>
-            </div>
-            <div class="row" *ngIf="isUser()">
-                <div class="col-md-12">
-                    <p><strong>Bank Account Status:</strong> 
-                        {{ user?.bankAccountStatus === true ? 'Active' : (user?.bankAccountStatus === false ? 'Not Active' : 'No Bank Account') }}
-                    </p>
+            <div class="profile-content">
+                <div class="info-section">
+                    <div class="info-group">
+                        <i class="fas fa-envelope"></i>
+                        <div class="info-details">
+                            <label>Email</label>
+                            <p>{{user?.email}}</p>
+                        </div>
+                    </div>
+                    
+                    <div class="info-group">
+                        <i class="fas fa-phone"></i>
+                        <div class="info-details">
+                            <label>Phone</label>
+                            <p>{{user?.phoneNumber}}</p>
+                        </div>
+                    </div>
+                    
+                    <div class="info-group">
+                        <i class="fas fa-map-marker-alt"></i>
+                        <div class="info-details">
+                            <label>Address</label>
+                            <p>{{user?.address}}</p>
+                        </div>
+                    </div>
+                    
+                    <div class="info-group" *ngIf="isUser()">
+                        <i class="fas fa-university"></i>
+                        <div class="info-details">
+                            <label>Bank Account Status</label>
+                            <p [class.active]="user?.bankAccountStatus" [class.inactive]="!user?.bankAccountStatus">
+                                {{ user?.bankAccountStatus === true ? 'Active' : (user?.bankAccountStatus === false ? 'Inactive' : 'No Bank Account') }}
+                            </p>
+                        </div>
+                    </div>
                 </div>
             </div>
-         
-
-
-          </div>
         </div>
-      </div>
-      
+    </div>
 </div>
