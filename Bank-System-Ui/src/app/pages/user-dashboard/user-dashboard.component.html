@@ -1,1 +1,96 @@
-<p>user-dashboard works!</p>
+<div class="dashboard-layout">
+    <app-user-sidebar></app-user-sidebar>
+    
+    <div class="main-content">
+        <div class="dashboard-container">
+            <div class="loading-spinner" *ngIf="loading">
+                <div class="spinner"></div>
+                <p>Loading your dashboard...</p>
+            </div>
+
+            <div class="error-message" *ngIf="error">
+                <div class="alert alert-danger">
+                    <i class="fas fa-exclamation-circle"></i>
+                    {{ error }}
+                </div>
+            </div>
+
+            <div class="dashboard-content" *ngIf="!loading && !error">
+                <div class="welcome-section">
+                    <div class="welcome-header">
+                        <i class="fas fa-user-circle"></i>
+                        <div>
+                            <h1>Welcome, {{ user?.firstName }} {{ user?.lastName }}!</h1>
+                            <p class="subtitle">Manage your bank account and profile information</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="dashboard-grid">
+                    <!-- Profile Card -->
+                    <div class="dashboard-card profile-card">
+                        <div class="card-header">
+                            <i class="fas fa-user"></i>
+                            <h2>Profile Information</h2>
+                        </div>
+                        <div class="profile-info">
+                            <div class="info-group">
+                                <label><i class="fas fa-envelope"></i> Email</label>
+                                <p>{{ user?.email }}</p>
+                            </div>
+                            <div class="info-group">
+                                <label><i class="fas fa-phone"></i> Phone Number</label>
+                                <p>{{ user?.phoneNumber }}</p>
+                            </div>
+                            <div class="info-group">
+                                <label><i class="fas fa-map-marker-alt"></i> Address</label>
+                                <p>{{ user?.address }}</p>
+                            </div>
+                            <div class="info-group">
+                                <label><i class="fas fa-user-shield"></i> Account Status</label>
+                                <p [class.active]="user?.isActive" [class.inactive]="!user?.isActive">
+                                    {{ user?.isActive ? 'Active' : 'Inactive' }}
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Bank Account Card -->
+                    <div class="dashboard-card account-card">
+                        <div class="card-header">
+                            <i class="fas fa-university"></i>
+                            <h2>Bank Account</h2>
+                        </div>
+                        <div *ngIf="account" class="account-info">
+                            <div class="info-group">
+                                <label><i class="fas fa-credit-card"></i> Card Number</label>
+                                <p class="card-number">{{ account?.cardNumber }}</p>
+                            </div>
+                            <div class="info-group">
+                                <label><i class="fas fa-wallet"></i> Balance</label>
+                                <p class="balance">${{ account?.balance?.toFixed(2) }}</p>
+                            </div>
+                            <div class="info-group">
+                                <label><i class="fas fa-toggle-on"></i> Account Status</label>
+                                <p [class.active]="account?.isActive" [class.inactive]="!account?.isActive">
+                                    {{ account?.isActive ? 'Active' : 'Inactive' }}
+                                </p>
+                            </div>
+                            <div class="info-group">
+                                <label><i class="fas fa-calendar-alt"></i> Created At</label>
+                                <p>{{ account?.createdAt | date:'medium' }}</p>
+                            </div>
+                        </div>
+                        <div *ngIf="!account" class="no-account">
+                            <i class="fas fa-plus-circle"></i>
+                            <p>You don't have a bank account yet.</p>
+                            <button class="btn btn-primary" (click)="createBankAccount()">
+                                <i class="fas fa-plus"></i> Create Bank Account
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

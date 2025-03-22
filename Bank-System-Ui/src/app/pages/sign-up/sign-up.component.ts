@@ -30,17 +30,23 @@ export class SignUpComponent {
   onSubmit() {
     this.authService.register(this.registerRequest).subscribe({
       next: (response) => {
-        console.log(response);
-        console.log('hello from sign up');
-        this.router.navigate(['login']);
+        console.log('Registration successful:', response);
+        // Clear any previous errors
+        this.fieldErrors = {};
+        // Show success message
+        alert('Registration successful! Please log in.');
+        // Navigate to login after a short delay
+        setTimeout(() => {
+          this.router.navigate(['/login']);
+        }, 1000);
       },
       error: (err) => {
-       
-        
+        console.error('Registration failed:', err);
         if (err.error?.fieldErrors) {
-          this.fieldErrors = err.error.fieldErrors;  
+          this.fieldErrors = err.error.fieldErrors;
+        } else {
+          this.fieldErrors['general'] = 'Registration failed. Please try again.';
         }
-
       }
     });
   }

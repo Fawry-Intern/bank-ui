@@ -6,6 +6,10 @@ import { AdminDashboardComponent } from './pages/admin-dashboard/admin-dashboard
 import { ProfileComponent } from './pages/profile/profile.component';
 import { ActiveAccountsComponent } from './pages/active-accounts/active-accounts.component';
 import { BlockedAccountsComponent } from './pages/blocked-accounts/blocked-accounts.component';
+import { TransferMoneyComponent } from './pages/transfer-money/transfer-money.component';
+import { TransactionsComponent } from './pages/transactions/transactions.component';
+import { AuthGuard } from './guards/auth.guard';
+import { RoleGuard } from './guards/role.guard';
 
 export const routes: Routes = [
     { path: '', redirectTo: 'login', pathMatch: 'full' },
@@ -16,5 +20,29 @@ export const routes: Routes = [
     { path: 'un-active-account', component: BlockedAccountsComponent },
     { path: 'login', component: LogInComponent },
     { path: 'sign-up', component: SignUpComponent },
+    {
+        path: 'user-dashboard',
+        component: UserDashboardComponent,
+        canActivate: [AuthGuard, RoleGuard],
+        data: { role: 'user' }
+    },
+    {
+        path: 'admin-dashboard',
+        component: AdminDashboardComponent,
+        canActivate: [AuthGuard, RoleGuard],
+        data: { role: 'admin' }
+    },
+    {
+        path: 'transfer-money',
+        component: TransferMoneyComponent,
+        canActivate: [AuthGuard, RoleGuard],
+        data: { role: 'user' }
+    },
+    {
+        path: 'user-dashboard/transactions',
+        component: TransactionsComponent,
+        canActivate: [AuthGuard, RoleGuard],
+        data: { role: 'user' }
+    },
     { path: '**', redirectTo: 'login' }
 ];

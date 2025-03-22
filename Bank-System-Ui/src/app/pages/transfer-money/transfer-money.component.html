@@ -1,0 +1,161 @@
+<div class="dashboard-layout">
+  <app-user-sidebar></app-user-sidebar>
+  
+  <div class="main-content">
+    <div class="dashboard-container">
+      <!-- Loading State -->
+      <div *ngIf="loading" class="loading-spinner">
+        <div class="spinner"></div>
+        <p>Loading your account information...</p>
+      </div>
+
+      <!-- Error Message -->
+      <div *ngIf="error" class="error-message">
+        <div class="alert alert-danger">
+          <i class="fas fa-exclamation-circle"></i>
+          {{ error }}
+        </div>
+      </div>
+
+      <!-- Success Message -->
+      <div *ngIf="successMessage" class="success-message">
+        <div class="alert alert-success">
+          <i class="fas fa-check-circle"></i>
+          {{ successMessage }}
+        </div>
+      </div>
+
+      <!-- Main Content -->
+      <div *ngIf="!loading" class="transfer-content">
+        <!-- Welcome Section -->
+        <div class="welcome-section">
+          <div class="welcome-header">
+            <i class="fas fa-exchange-alt"></i>
+            <div>
+              <h1>Transfer Money</h1>
+              <p class="subtitle">Manage your deposits and withdrawals</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Account Balance Card -->
+        <div *ngIf="accountData" class="balance-card">
+          <div class="balance-info">
+            <div class="balance-label">Available Balance</div>
+            <div class="balance-amount">${{ accountData.balance | number:'1.2-2' }}</div>
+            <div class="account-number">Card: {{ accountData.cardNumber }}</div>
+          </div>
+        </div>
+
+        <!-- Transfer Tabs -->
+        <div class="transfer-tabs">
+          <div class="tab-buttons">
+            <button 
+              [class.active]="activeTab === 'deposit'" 
+              (click)="setActiveTab('deposit')"
+              class="tab-button">
+              <i class="fas fa-arrow-down"></i>
+              Deposit
+            </button>
+            <button 
+              [class.active]="activeTab === 'withdraw'" 
+              (click)="setActiveTab('withdraw')"
+              class="tab-button">
+              <i class="fas fa-arrow-up"></i>
+              Withdraw
+            </button>
+          </div>
+
+          <!-- Deposit Form -->
+          <div *ngIf="activeTab === 'deposit'" class="transfer-form">
+            <div class="form-header">
+              <i class="fas fa-arrow-down"></i>
+              <h2>Make a Deposit</h2>
+            </div>
+            <div class="form-group">
+              <label for="deposit-amount">Amount</label>
+              <div class="input-group">
+                <span class="input-prefix">$</span>
+                <input 
+                  type="number" 
+                  id="deposit-amount"
+                  [(ngModel)]="amount"
+                  placeholder="Enter amount"
+                  min="0"
+                  step="0.01"
+                  class="form-control">
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="deposit-note">Note (Optional)</label>
+              <input 
+                type="text" 
+                id="deposit-note"
+                [(ngModel)]="note"
+                placeholder="Add a note about this deposit"
+                class="form-control">
+            </div>
+            <button 
+              (click)="handleDeposit()"
+              [disabled]="processing || !amount"
+              class="submit-button">
+              <i class="fas fa-check"></i>
+              {{ processing ? 'Processing...' : 'Confirm Deposit' }}
+            </button>
+          </div>
+
+          <!-- Withdraw Form -->
+          <div *ngIf="activeTab === 'withdraw'" class="transfer-form">
+            <div class="form-header">
+              <i class="fas fa-arrow-up"></i>
+              <h2>Make a Withdrawal</h2>
+            </div>
+            <div class="form-group">
+              <label for="withdraw-amount">Amount</label>
+              <div class="input-group">
+                <span class="input-prefix">$</span>
+                <input 
+                  type="number" 
+                  id="withdraw-amount"
+                  [(ngModel)]="amount"
+                  placeholder="Enter amount"
+                  min="0"
+                  step="0.01"
+                  class="form-control">
+              </div>
+              <div class="available-balance">
+                Available: ${{ accountData?.balance | number:'1.2-2' }}
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="withdraw-note">Note (Optional)</label>
+              <input 
+                type="text" 
+                id="withdraw-note"
+                [(ngModel)]="note"
+                placeholder="Add a note about this withdrawal"
+                class="form-control">
+            </div>
+            <button 
+              (click)="handleWithdraw()"
+              [disabled]="processing || !amount"
+              class="submit-button">
+              <i class="fas fa-check"></i>
+              {{ processing ? 'Processing...' : 'Confirm Withdrawal' }}
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- No Account Message -->
+      <div *ngIf="!loading && !accountData" class="no-account">
+        <i class="fas fa-university"></i>
+        <p>You need to create a bank account first to make transfers.</p>
+        <button routerLink="/user-dashboard" class="btn btn-primary">
+          <i class="fas fa-arrow-left"></i>
+          Back to Dashboard
+        </button>
+      </div>
+    </div>
+  </div>
+</div> 

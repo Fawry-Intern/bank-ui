@@ -1,42 +1,48 @@
-
-import { Component, Input } from "@angular/core";
-
-import { UserTableComponent } from "../../components/user-table/user-table.component";
-import { CommonModule } from "@angular/common";
-import { FormsModule } from "@angular/forms";
-import { UserDetails } from "../../models/user/user-details.model";
-import { UserService } from "../../services/user.service";
-import { SidebarComponent } from "../../components/admin-sidebar/sidebar.component";
-import { AccountService } from "../../services/account.service";
+import { Component, OnInit } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
+import { UserDetails } from '../../models/user/user-details.model';
+import { UserService } from '../../services/user.service';
+import { SidebarComponent } from '../../components/admin-sidebar/sidebar.component';
+import { AccountService } from '../../services/account.service';
+import { UserTableComponent } from '../../components/user-table/user-table.component';
+import { DatePipe } from '@angular/common';
 
 @Component({
     selector: 'app-admin-dashboard',
-   standalone:true,
+    standalone: true,
     templateUrl: './admin-dashboard.component.html',
-    styleUrl: './admin-dashboard.component.css',
-    imports: [SidebarComponent,UserTableComponent,CommonModule,FormsModule]
+    styleUrls: ['./admin-dashboard.component.css'],
+    imports: [CommonModule, FormsModule, SidebarComponent, UserTableComponent, DatePipe]
 })
-export class AdminDashboardComponent {
+export class AdminDashboardComponent implements OnInit {
+    users: UserDetails[] = [];
+    loading = false;
+    error: string | null = null;
 
-    users:UserDetails[]=[];
+    constructor(private userService: UserService, private accountService: AccountService) {}
 
-    constructor(private userService:UserService,private accountService:AccountService)
-    {
-
-    }
-
-    ngOnInit(){
+    ngOnInit(): void {
         this.getAllUsers();
     }
-      
-    getAllUsers(){
+
+    getAllUsers() {
+        this.loading = true;
+        this.error = null;
         this.userService.getAllUsers().subscribe({
             next: (response) => {
-              this.users=response;
-              console.log(response);
-            }})
-        }
+                this.users = response;
+                this.loading = false;
+            },
+            error: (error) => {
+                console.error('Error loading users:', error);
+                this.error = 'Failed to load users. Please try again.';
+                this.loading = false;
+            }
+        });
+    }
 
-
-
+    getActiveUsersCount(): number {
+        return this.users.filter(user => user.isActive).length;
+    }
 }
