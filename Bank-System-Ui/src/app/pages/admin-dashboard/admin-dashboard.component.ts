@@ -133,14 +133,18 @@ export class AdminDashboardComponent implements OnInit {
 
     // Quick Action Methods
     viewAllUsers() {
-        this.router.navigate(['/admin/users']);
+        // Scroll to the Users Management section
+        const usersSection = document.querySelector('.users-table-section');
+        if (usersSection) {
+            usersSection.scrollIntoView({ behavior: 'smooth' });
+        }
     }
 
     viewActiveAccounts() {
-        this.router.navigate(['/admin/active-accounts']);
+        this.router.navigate(['/active-account']);
     }
 
     viewBlockedAccounts() {
-        this.router.navigate(['/admin/blocked-accounts']);
+        this.router.navigate(['/un-active-account']);
     }
 }
