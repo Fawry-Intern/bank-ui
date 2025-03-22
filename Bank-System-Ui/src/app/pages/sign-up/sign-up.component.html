@@ -28,81 +28,114 @@
                   </div>
 
                   <!-- Sign-Up Form -->
-                  <form (ngSubmit)="onSubmit()">
-                    <div class="row gy-3 overflow-hidden">
-                      <!-- First Name Field -->
-                      <div class="col-12">
-                        <div class="form-floating mb-3">
-                          <input class="form-control" name="firstname" placeholder="first name" [(ngModel)]="registerRequest.firstName" required>
-                          <label for="firstname" class="form-label">First Name</label>
-                          <div *ngIf="fieldErrors?.['firstName']" class="text-danger">
-                            {{ fieldErrors['firstName'] }}
-                          </div>
-                        </div>
+                  <form (ngSubmit)="onSubmit()" class="auth-form">
+                    <!-- First Name Field -->
+                    <div class="form-group">
+                      <div class="input-group">
+                        <i class="fas fa-user"></i>
+                        <input 
+                          type="text" 
+                          name="firstname" 
+                          placeholder="First Name"
+                          [(ngModel)]="registerRequest.firstName" 
+                          required>
                       </div>
-
-                      <!-- Last Name Field -->
-                      <div class="col-12">
-                        <div class="form-floating mb-3">
-                          <input class="form-control" name="lastname" placeholder="last name" [(ngModel)]="registerRequest.lastName" required>
-                          <label for="lastname" class="form-label">Last Name</label>
-                          <div *ngIf="fieldErrors?.['lastName']" class="text-danger">
-                            {{ fieldErrors['lastName'] }}
-                          </div>
-                        </div>
-                      </div>
-
-                      <!-- Email Field -->
-                      <div class="col-12">
-                        <div class="form-floating mb-3">
-                          <input type="email" class="form-control" name="email" id="email" placeholder="email" [(ngModel)]="registerRequest.email" required>
-                          <label for="email" class="form-label">Email</label>
-                          <div *ngIf="fieldErrors?.['email']" class="text-danger">
-                            {{ fieldErrors['email'] }}
-                          </div>
-                        </div>
-                      </div>
-
-                      <!-- Password Field -->
-                      <div class="col-12">
-                        <div class="form-floating mb-3">
-                          <input type="password" class="form-control" name="password" id="password" placeholder="Password" [(ngModel)]="registerRequest.password" required>
-                          <label for="password" class="form-label">Password</label>
-                          <div *ngIf="fieldErrors?.['password']" class="text-danger">
-                            {{ fieldErrors['password'] }}
-                          </div>
-                        </div>
-                      </div>
-
-                      <!-- Phone Number Field -->
-                      <div class="col-12">
-                        <div class="form-floating mb-3">
-                          <input class="form-control" name="phone-number" id="phone-number" placeholder="phone number" [(ngModel)]="registerRequest.phoneNumber" required>
-                          <label for="phone-number" class="form-label">Phone Number</label>
-                          <div *ngIf="fieldErrors?.['phoneNumber']" class="text-danger">
-                            {{ fieldErrors['phoneNumber'] }}
-                          </div>
-                        </div>
-                      </div>
-
-                      <!-- Address Field -->
-                      <div class="col-12">
-                        <div class="form-floating mb-3">
-                          <input class="form-control" name="address" id="address" placeholder="address" [(ngModel)]="registerRequest.address" required>
-                          <label for="address" class="form-label">Address</label>
-                          <div *ngIf="fieldErrors?.['address']" class="text-danger">
-                            {{ fieldErrors['address'] }}
-                          </div>
-                        </div>
-                      </div>
-
-                      <!-- Submit Button -->
-                      <div class="col-12">
-                        <div class="d-grid">
-                          <button class="btn btn-dark btn-lg" type="submit"style="cursor: pointer;">Sign up now</button>
-                        </div>
+                      <div *ngIf="fieldErrors?.['firstName']" class="error-message">
+                        <i class="fas fa-exclamation-circle"></i>
+                        {{ fieldErrors['firstName'] }}
                       </div>
                     </div>
+
+                    <!-- Last Name Field -->
+                    <div class="form-group">
+                      <div class="input-group">
+                        <i class="fas fa-user"></i>
+                        <input 
+                          type="text" 
+                          name="lastname" 
+                          placeholder="Last Name"
+                          [(ngModel)]="registerRequest.lastName" 
+                          required>
+                      </div>
+                      <div *ngIf="fieldErrors?.['lastName']" class="error-message">
+                        <i class="fas fa-exclamation-circle"></i>
+                        {{ fieldErrors['lastName'] }}
+                      </div>
+                    </div>
+
+                    <!-- Email Field -->
+                    <div class="form-group">
+                      <div class="input-group">
+                        <i class="fas fa-envelope"></i>
+                        <input 
+                          type="email" 
+                          name="email" 
+                          placeholder="Email Address"
+                          [(ngModel)]="registerRequest.email" 
+                          required>
+                      </div>
+                      <div *ngIf="fieldErrors?.['email']" class="error-message">
+                        <i class="fas fa-exclamation-circle"></i>
+                        {{ fieldErrors['email'] }}
+                      </div>
+                    </div>
+
+                    <!-- Password Field -->
+                    <div class="form-group">
+                      <div class="input-group">
+                        <i class="fas fa-lock"></i>
+                        <input 
+                          type="password" 
+                          name="password" 
+                          placeholder="Password"
+                          [(ngModel)]="registerRequest.password" 
+                          required>
+                      </div>
+                      <div *ngIf="fieldErrors?.['password']" class="error-message">
+                        <i class="fas fa-exclamation-circle"></i>
+                        {{ fieldErrors['password'] }}
+                      </div>
+                    </div>
+
+                    <!-- Phone Number Field -->
+                    <div class="form-group">
+                      <div class="input-group">
+                        <i class="fas fa-phone"></i>
+                        <input 
+                          type="tel" 
+                          name="phone-number" 
+                          placeholder="Phone Number"
+                          [(ngModel)]="registerRequest.phoneNumber" 
+                          required>
+                      </div>
+                      <div *ngIf="fieldErrors?.['phoneNumber']" class="error-message">
+                        <i class="fas fa-exclamation-circle"></i>
+                        {{ fieldErrors['phoneNumber'] }}
+                      </div>
+                    </div>
+
+                    <!-- Address Field -->
+                    <div class="form-group">
+                      <div class="input-group">
+                        <i class="fas fa-map-marker-alt"></i>
+                        <input 
+                          type="text" 
+                          name="address" 
+                          placeholder="Address"
+                          [(ngModel)]="registerRequest.address" 
+                          required>
+                      </div>
+                      <div *ngIf="fieldErrors?.['address']" class="error-message">
+                        <i class="fas fa-exclamation-circle"></i>
+                        {{ fieldErrors['address'] }}
+                      </div>
+                    </div>
+
+                    <!-- Submit Button -->
+                    <button type="submit" class="submit-btn">
+                      <i class="fas fa-user-plus"></i>
+                      Create Account
+                    </button>
                   </form>
 
                   <!-- Login Redirect Section -->
