@@ -5,6 +5,7 @@ import { UserDetails } from "../models/user/user-details.model";
 import { catchError, Observable } from "rxjs";
 import { AuthRequest } from "../dtos/user/auth-request.model";
 import { AuthDetails } from "../models/user/auth-details.model";
+import { environment } from '../../environments/environment';
 
 @Injectable({
     providedIn:'root'
@@ -12,7 +13,7 @@ import { AuthDetails } from "../models/user/auth-details.model";
 export class AuthService{
     
 
-    private authUrl = 'http://localhost:8081/api/auth';
+    private apiUrl = `${environment.apiUrl}/auth`;
 
     constructor(private httpClient:HttpClient)
     {
@@ -20,7 +21,7 @@ export class AuthService{
     }
     register(registerRequest: RegisterRequest): Observable<String> {
         return this.httpClient
-          .post<String>(`${this.authUrl}/sign-up`, registerRequest)
+          .post<String>(`${this.apiUrl}/sign-up`, registerRequest)
           .pipe(
             catchError((error) => {
               console.error('Sign-up failed', error);
@@ -31,7 +32,7 @@ export class AuthService{
         
         authenticate(authRequest: AuthRequest): Observable<AuthDetails> {
             return this.httpClient
-              .post<AuthDetails>(`${this.authUrl}/login`,authRequest )
+              .post<AuthDetails>(`${this.apiUrl}/login`,authRequest )
               .pipe(
                 catchError((error) => {
                   console.error('Login failed', error);
@@ -42,5 +43,9 @@ export class AuthService{
 
     logout(): void {
         localStorage.clear();
+    }
+
+    forgotPassword(email: string): Observable<{ message: string }> {
+        return this.httpClient.post<{ message: string }>(`${this.apiUrl}/forgot-password`, { email });
     }
 }
