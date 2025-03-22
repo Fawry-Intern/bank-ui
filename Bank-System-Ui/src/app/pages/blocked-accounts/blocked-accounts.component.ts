@@ -6,28 +6,26 @@ import { UserDetails } from '../../models/user/user-details.model';
 
 @Component({
   selector: 'app-blocked-accounts',
+  standalone: true,
   imports: [SidebarComponent, UserTableComponent],
   templateUrl: './blocked-accounts.component.html',
   styleUrl: './blocked-accounts.component.css'
 })
 export class BlockedAccountsComponent {
-   users:UserDetails[]=[];
+   users: UserDetails[] = [];
     
-        constructor(private userService:UserService)
-        {
+   constructor(private userService: UserService) {}
     
-        }
-    
-        ngOnInit(){
-            this.getAllUsersWithBlockedAccounts();
-        }
+   ngOnInit() {
+       this.getAllUsersWithBlockedAccounts();
+   }
           
-        getAllUsersWithBlockedAccounts(){
-            this.userService.getAllUsersWithBlockedAccounts().subscribe({
-                next: (response) => {
-                  this.users=response;
-                  console.log(response);
-                }})
-            }
-
+   getAllUsersWithBlockedAccounts() {
+       this.userService.getAllUsersWithBlockedAccounts().subscribe({
+           next: (response) => {
+               this.users = response;
+               console.log(response);
+           }
+       });
+   }
 }

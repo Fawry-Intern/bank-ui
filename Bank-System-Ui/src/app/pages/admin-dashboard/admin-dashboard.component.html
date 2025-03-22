@@ -94,17 +94,6 @@
             <div class="users-table-section">
                 <div class="section-header">
                     <h2>Users Management</h2>
-                    <div class="table-actions">
-                        <div class="search-box">
-                            <i class="fas fa-search"></i>
-                            <input 
-                                type="text" 
-                                placeholder="Search users..." 
-                                [(ngModel)]="searchQuery"
-                                (input)="filterUsers()"
-                            >
-                        </div>
-                    </div>
                 </div>
                 <app-user-table [users]="filteredUsers"></app-user-table>
             </div>
