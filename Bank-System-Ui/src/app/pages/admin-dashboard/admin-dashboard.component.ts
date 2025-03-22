@@ -13,6 +13,7 @@ interface Activity {
     type: 'user' | 'account' | 'system';
     title: string;
     time: Date;
+    icon?: string;
 }
 
 @Component({
@@ -33,7 +34,7 @@ export class AdminDashboardComponent implements OnInit {
     constructor(
         private userService: UserService,
         private accountService: AccountService,
-        private router: Router
+        public router: Router
     ) {}
 
     ngOnInit(): void {
@@ -49,6 +50,7 @@ export class AdminDashboardComponent implements OnInit {
                 this.users = response;
                 this.filteredUsers = response;
                 this.loading = false;
+                this.updateRecentActivities();
             },
             error: (error) => {
                 console.error('Error loading users:', error);
@@ -62,37 +64,56 @@ export class AdminDashboardComponent implements OnInit {
         return this.users.filter(user => user.isActive).length;
     }
 
-    loadRecentActivities() {
-        // Simulate recent activities (in a real app, this would come from a backend)
-        this.recentActivities = [
-            {
+    updateRecentActivities() {
+        // Get last 5 registered users (based on highest IDs)
+        const recentUsers = [...this.users]
+            .sort((a, b) => Number(b.id) - Number(a.id))
+            .slice(0, 5);
+
+        const activities: Activity[] = [];
+
+        // Add recent user registrations
+        recentUsers.forEach(user => {
+            activities.push({
                 type: 'user',
-                title: 'New user registration: John Doe',
-                time: new Date(Date.now() - 1000 * 60 * 5) // 5 minutes ago
-            },
-            {
-                type: 'account',
-                title: 'Account activated: Jane Smith',
-                time: new Date(Date.now() - 1000 * 60 * 15) // 15 minutes ago
-            },
-            {
-                type: 'system',
-                title: 'System maintenance completed',
-                time: new Date(Date.now() - 1000 * 60 * 30) // 30 minutes ago
-            }
-        ];
+                title: `New user registration: ${user.firstName} ${user.lastName}`,
+                time: new Date(),
+                icon: 'fa-user-plus'
+            });
+        });
+
+        // Add account status changes
+        const activeAccounts = this.users.filter(user => user.bankAccountStatus);
+        const inactiveAccounts = this.users.filter(user => !user.bankAccountStatus);
+
+        activities.push({
+            type: 'account',
+            title: `Active Bank Accounts: ${activeAccounts.length}`,
+            time: new Date(),
+            icon: 'fa-check-circle'
+        });
+
+        activities.push({
+            type: 'account',
+            title: `Inactive Bank Accounts: ${inactiveAccounts.length}`,
+            time: new Date(),
+            icon: 'fa-times-circle'
+        });
+
+        // Add system activity
+        activities.push({
+            type: 'system',
+            title: 'System Status: Online',
+            time: new Date(),
+            icon: 'fa-server'
+        });
+
+        this.recentActivities = activities;
     }
 
-    getActivityIcon(type: string): string {
-        switch (type) {
-            case 'user':
-                return 'fa-user-plus';
-            case 'account':
-                return 'fa-university';
-            case 'system':
-                return 'fa-cog';
-            default:
-                return 'fa-info-circle';
+    loadRecentActivities() {
+        if (this.users.length > 0) {
+            this.updateRecentActivities();
         }
     }
 
@@ -110,16 +131,16 @@ export class AdminDashboardComponent implements OnInit {
         );
     }
 
+    // Quick Action Methods
     viewAllUsers() {
-        this.searchQuery = '';
-        this.filteredUsers = this.users;
+        this.router.navigate(['/admin/users']);
     }
 
     viewActiveAccounts() {
-        this.router.navigate(['/active-account']);
+        this.router.navigate(['/admin/active-accounts']);
     }
 
     viewBlockedAccounts() {
-        this.router.navigate(['/un-active-account']);
+        this.router.navigate(['/admin/blocked-accounts']);
     }
 }

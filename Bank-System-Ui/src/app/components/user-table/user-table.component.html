@@ -1,45 +1,58 @@
-<div class="container-fluid p-4 flex-grow-1 d-flex justify-content-center">
-  <div class="card shadow-lg w-70 w-md-50">
+<div class="container-fluid p-4">
+  <div class="card shadow-lg">
     <div class="card-body">
-      <h3 class="text-primary mb-4 text-center fw-bold">Active Bank Accounts</h3>
-
-      <!-- Search Filter -->
-      <div class="mb-4">
-        <div class="input-group">
-          <span class="input-group-text bg-primary text-white">
+      <div class="d-flex justify-content-between align-items-center mb-4">
+        <h3 class="text-primary fw-bold">User Management</h3>
+        <div class="d-flex gap-3 align-items-center">
+          <div class="search-box">
             <i class="fas fa-search"></i>
-          </span>
-          <input
-            type="text"
-            class="form-control"
-            placeholder="Search users..."
-            [(ngModel)]="searchQuery"
-            (input)="filterUsers()"
-          />
+            <input
+              type="text"
+              class="form-control"
+              placeholder="Search users..."
+              [(ngModel)]="searchQuery"
+              (input)="filterUsers()"
+            />
+          </div>
+          <div class="stats-summary">
+            <span class="badge bg-success me-2">{{ getActiveUsersCount() }} Active</span>
+            <span class="badge bg-danger me-2">{{ getInactiveUsersCount() }} Inactive</span>
+            <span class="badge bg-primary">{{ filteredUsers.length }} Total</span>
+          </div>
         </div>
       </div>
 
-      <!-- Table -->
       <div class="table-responsive">
         <table class="table table-hover align-middle">
           <thead>
-            <tr class="bg-light">
-              <th class="text-primary">First Name</th>
-              <th class="text-primary">Last Name</th>
-              <th class="text-primary">Email</th>
-              <th class="text-primary">Address</th>
-              <th class="text-primary">Phone</th>
-              <th class="text-primary">User Status</th>
-              <th class="text-primary">Bank Status</th>
+            <tr>
+              <th>User</th>
+              <th>Contact</th>
+              <th>Account Status</th>
+              <th>Bank Status</th>
+              <th>Actions</th>
             </tr>
           </thead>
           <tbody>
-            <tr *ngFor="let user of filteredUsers" class="border-bottom">
-              <td>{{ user.firstName }}</td>
-              <td>{{ user.lastName }}</td>
-              <td>{{ user.email }}</td>
-              <td>{{ user.address }}</td>
-              <td>{{ user.phoneNumber }}</td>
+            <tr *ngFor="let user of filteredUsers">
+              <td>
+                <div class="d-flex align-items-center">
+                  <div class="avatar-circle">
+                    {{ user.firstName.charAt(0) }}{{ user.lastName.charAt(0) }}
+                  </div>
+                  <div class="ms-3">
+                    <div class="fw-bold">{{ user.firstName }} {{ user.lastName }}</div>
+                    <small class="text-muted">ID: {{ user.id }}</small>
+                  </div>
+                </div>
+              </td>
+              <td>
+                <div class="contact-info">
+                  <div><i class="fas fa-envelope me-2"></i>{{ user.email }}</div>
+                  <div><i class="fas fa-phone me-2"></i>{{ user.phoneNumber }}</div>
+                  <div><i class="fas fa-map-marker-alt me-2"></i>{{ user.address }}</div>
+                </div>
+              </td>
               <td>
                 <div
                   class="status-badge"
@@ -66,6 +79,16 @@
                 >
                   <i class="fas" [ngClass]="user.bankAccountStatus ? 'fa-check-circle' : 'fa-times-circle'"></i>
                   {{ user?.bankAccountStatus === true ? 'Active' : (user?.bankAccountStatus === false ? 'Inactive' : 'No Account') }}
+                </div>
+              </td>
+              <td>
+                <div class="action-buttons">
+                  <button class="btn btn-sm btn-outline-primary me-2" (click)="viewUserDetails(user)">
+                    <i class="fas fa-eye"></i>
+                  </button>
+                  <button class="btn btn-sm btn-outline-danger" (click)="deleteUser(user)" *ngIf="getUserId() !== user.id.toString()">
+                    <i class="fas fa-trash"></i>
+                  </button>
                 </div>
               </td>
             </tr>
