@@ -25,7 +25,7 @@ export class SidebarComponent {
   }
 
   goToAdminDashboard() {
-    this.router.navigate(['admin']);
+    this.router.navigate(['admin-dashboard']);
   }
 
   goToProfile() {

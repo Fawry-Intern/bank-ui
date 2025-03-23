@@ -18,7 +18,7 @@ import { AuthService } from '../../services/auth.service';
                     <i class="fas fa-home"></i>
                     <span>Home</span>
                 </a>
-                <a routerLink="/user-dashboard/transactions" routerLinkActive="active" class="nav-item">
+                <a routerLink="/transactions" routerLinkActive="active" class="nav-item">
                     <i class="fas fa-exchange-alt"></i>
                     <span>Transactions</span>
                 </a>

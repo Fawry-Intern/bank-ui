@@ -15,15 +15,21 @@ import { RoleGuard } from './guards/role.guard';
 
 export const routes: Routes = [
     { path: '', redirectTo: 'login', pathMatch: 'full' },
-    { path: 'home', component: UserDashboardComponent },
-    { path: 'profile/:id', component: ProfileComponent },
-    { path: 'admin', component: AdminDashboardComponent },
-    { path: 'active-account', component: ActiveAccountsComponent },
-    { path: 'un-active-account', component: BlockedAccountsComponent },
-    { path: 'login', component: LogInComponent },
-    { path: 'sign-up', component: SignUpComponent },
-    { path: 'forgot-password', component: ForgotPasswordComponent },
-    { path: 'reset-password', component: ResetPasswordComponent },
+    
+    { path: 'profile/:id',
+     component: ProfileComponent,
+     canActivate:[AuthGuard]
+     },
+    { path: 'active-account',
+     component: ActiveAccountsComponent,
+     canActivate:[AuthGuard,RoleGuard],
+     data:{role:'admin'}
+    },
+    { path: 'un-active-account', 
+        component: BlockedAccountsComponent,
+    canActivate:[AuthGuard,RoleGuard]
+   ,data:{role:'admin'}
+    },
     {
         path: 'user-dashboard',
         component: UserDashboardComponent,
@@ -43,10 +49,14 @@ export const routes: Routes = [
         data: { role: 'user' }
     },
     {
-        path: 'user-dashboard/transactions',
+        path: 'transactions',
         component: TransactionsComponent,
         canActivate: [AuthGuard, RoleGuard],
         data: { role: 'user' }
     },
+    { path: 'login', component: LogInComponent },
+    { path: 'sign-up', component: SignUpComponent },
+    { path: 'forgot-password', component: ForgotPasswordComponent },
+    { path: 'reset-password', component: ResetPasswordComponent },
     { path: '**', redirectTo: 'login' }
 ];

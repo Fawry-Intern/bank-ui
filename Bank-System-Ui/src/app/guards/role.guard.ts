@@ -11,22 +11,9 @@ export class RoleGuard implements CanActivate {
     const userRole = localStorage.getItem('userRole');
     const requiredRole = route.data['role'];
 
-    if (!userRole) {
-      this.router.navigate(['/login']);
-      return false;
-    }
-
+    
     if (userRole === requiredRole) {
       return true;
-    }
-
-    // Redirect to appropriate dashboard based on role
-    if (userRole === 'admin') {
-      this.router.navigate(['/admin']);
-    } else if (userRole === 'user') {
-      this.router.navigate(['/home']);
-    } else {
-      this.router.navigate(['/login']);
     }
 
     return false;

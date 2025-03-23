@@ -21,25 +21,24 @@ export class LogInComponent {
     userId: number = 0;
     fieldErrors: { [key: string]: string } = {};
 
-    constructor(private authService: AuthService, private route: Router) {}
+    constructor(private authService: AuthService, private route: Router) {localStorage.clear();}
 
     onSubmit() {
-        // Clear any previous errors
+       
         this.fieldErrors = {};
         
         this.authService.authenticate(this.authRequest).subscribe({
             next: (response: AuthDetails) => {
                 console.log('Login successful:', response);
-                // Store user data
+       
                 localStorage.setItem('userId', response.userId.toString());
                 localStorage.setItem('accessToken', response.accessToken);
                 localStorage.setItem('userRole', response.role.toLowerCase());
-                
-                // Navigate based on role
+
                 if (response.role.toLowerCase() === 'admin') {
-                    this.route.navigate(['/admin']);
+                    this.route.navigate(['/admin-dashboard']);
                 } else {
-                    this.route.navigate(['/home']);
+                    this.route.navigate(['/user-dashboard']);
                 }
             },
             error: (err) => {
