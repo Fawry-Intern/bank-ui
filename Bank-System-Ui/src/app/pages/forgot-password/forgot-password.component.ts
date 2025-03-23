@@ -27,28 +27,27 @@ export class ForgotPasswordComponent {
     });
   }
 
-  onSubmit() {
+  onSubmit(): void {
     if (this.forgotPasswordForm.valid) {
       this.isLoading = true;
       this.errorMessage = '';
       this.successMessage = '';
 
-      const email = this.forgotPasswordForm.get('email')?.value;
-      
-      // Call the auth service to handle password reset
-      this.authService.forgotPassword(email).subscribe({
-        next: () => {
-          this.isLoading = false;
-          this.successMessage = 'Password reset instructions have been sent to your email.';
-          setTimeout(() => {
-            this.router.navigate(['/login']);
-          }, 3000);
-        },
-        error: (error) => {
-          this.isLoading = false;
-          this.errorMessage = error.error?.message || 'An error occurred. Please try again.';
-        }
-      });
+      this.authService.forgotPassword(this.forgotPasswordForm.get('email')?.value)
+        .subscribe({
+          next: (response) => {
+            this.successMessage = response;
+            this.isLoading = false;
+            setTimeout(() => {
+              this.router.navigate(['/login']);
+            }, 3000);
+          },
+          error: (error) => {
+            console.error('Password reset request failed:', error);
+            this.errorMessage = error.error || 'An error occurred. Please try again.';
+            this.isLoading = false;
+          }
+        });
     }
   }
 

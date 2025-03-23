@@ -45,7 +45,11 @@ export class AuthService{
         localStorage.clear();
     }
 
-    forgotPassword(email: string): Observable<{ message: string }> {
-        return this.httpClient.post<{ message: string }>(`${this.apiUrl}/forgot-password`, { email });
+    forgotPassword(email: string): Observable<string> {
+        return this.httpClient.post(`${environment.apiUrl}/user/reset-password-request`, { email }, { responseType: 'text' });
+    }
+
+    resetPassword(token: string, newPassword: string): Observable<{ message: string }> {
+        return this.httpClient.post<{ message: string }>(`${environment.apiUrl}/user/reset-password`, { token, newPassword });
     }
 }
