@@ -1,6 +1,5 @@
 export interface PasswordResetRequest{
 
-    userId:Number,
-    oldPassword:String,
+     token:String,
     newPassword:String
 }

@@ -6,6 +6,7 @@ import { catchError, Observable } from "rxjs";
 import { AuthRequest } from "../dtos/user/auth-request.model";
 import { AuthDetails } from "../models/user/auth-details.model";
 import { environment } from '../../environments/environment';
+import { PasswordResetRequest } from "../dtos/user/password-reset-request.model";
 
 @Injectable({
     providedIn:'root'
@@ -49,7 +50,10 @@ export class AuthService{
         return this.httpClient.post(`${environment.apiUrl}/user/reset-password-request`, { email }, { responseType: 'text' });
     }
 
-    resetPassword(token: string, newPassword: string): Observable<{ message: string }> {
-        return this.httpClient.post<{ message: string }>(`${environment.apiUrl}/user/reset-password`, { token, newPassword });
+    resetPassword(request: PasswordResetRequest): Observable< String > {
+      return this.httpClient.put< String >(
+        `${environment.apiUrl}/user/reset-password`, 
+        request
+      );
     }
 }
